@@ -26,7 +26,7 @@ export default {
   width: inherit;
   text-align: center;
   line-height: 30px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid lightgray;
   cursor: pointer;
 }
 
