@@ -1,9 +1,15 @@
 <template>
   <div class="tabs-window">
   <TabsNavbar class="tabs-navbar">
-    <TabNav title="Employer" active="true"/>
-    <TabNav title="Employee"/>
+    <TabNav title="Employer" v-bind:active="this.activeTab === 'Employer'" v-on:clickEvent="tabClicked" />
+    <TabNav title="Employee" v-bind:active="this.activeTab === 'Employee'" v-on:clickEvent="tabClicked"/>
   </TabsNavbar>
+   <div v-if="this.activeTab === 'Employer'">
+    Employer formm
+  </div>
+  <div v-else-if="this.activeTab === 'Employee'">
+    Employee formm
+  </div>
   </div>
 </template>
 
@@ -17,8 +23,15 @@ export default {
     TabNav,
     TabsNavbar
   },
-  props: {
-    msg: String
+  data: function () {
+    return {
+      activeTab: 'Employer'
+    }
+  },
+  methods: {
+    tabClicked(title) {
+      this.activeTab = title;
+    }
   }
 }
 </script>
@@ -30,6 +43,5 @@ export default {
     border: 1px solid lightgray;
     margin-bottom: 30%;
     box-shadow: 2px 6px 12px #00000059;
-    display: flex;
   }
 </style>
