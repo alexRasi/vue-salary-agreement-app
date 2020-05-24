@@ -21,6 +21,7 @@ body {
   padding:0;
   width: 100vw;
   height: 100vh;
+  max-height: 100vh;
 }
 
 #app {
@@ -28,5 +29,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 </style>
