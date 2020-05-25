@@ -1,8 +1,8 @@
 <template>
-  <div class="submit-form">
-    <div class="input-container"><input type="number" class="salary-input" v-model="salary" placeholder="Enter salary"></div>
-    <div class="submit-button-container"><button class="submit-button" v-on:click="emitSubmitEvent">Submit</button></div>
-  </div>
+    <form class="submit-form"  @submit.prevent @submit="emitSubmitEvent">
+    <div class="input-container"><input type="number" min="0" class="salary-input" v-model="salary" placeholder="Enter salary"></div>
+      <div class="submit-button-container"><button type ="button" class="submit-button" v-on:click="emitSubmitEvent">Submit</button></div>
+    </form>
 </template>
 
 <script>
