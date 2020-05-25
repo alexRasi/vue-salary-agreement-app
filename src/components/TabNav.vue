@@ -1,5 +1,5 @@
 <template>
-  <div class="tab" v-bind:class="{active: active}">
+  <div class="tab" v-on:click="emitClickEvent" v-bind:class="{active: active}">
     {{title}}
   </div>
 </template>
@@ -11,6 +11,11 @@ export default {
     id: String,
     title: String,
     active: Boolean
+  },
+  methods: {
+    emitClickEvent() {
+      this.$emit('clickEvent', this.title);
+    }
   }
 }
 </script>
@@ -21,7 +26,7 @@ export default {
   width: inherit;
   text-align: center;
   line-height: 30px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid lightgray;
   cursor: pointer;
 }
 
