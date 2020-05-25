@@ -10,7 +10,7 @@ export default {
   name: 'submit-form',
    data: function () {
   return {
-    salary: 0
+    salary: null
     }
   },
   methods: {
