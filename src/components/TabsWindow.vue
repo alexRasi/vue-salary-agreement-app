@@ -10,13 +10,11 @@
     <TabNav title="Employee" v-bind:active="this.activeTab === 'Employee'" v-on:clickEvent="tabClicked"/>
   </TabsNavbar>
    <SubmitForm v-if="this.activeTab === 'Employer'" v-on:submitEvent="employerFormSubmit" key="employer"></SubmitForm>
-   <SubmitForm v-else-if="this.activeTab === 'Employee'" v-on:submitEvent="employeeFormSubmit" key="employee"></SubmitForm>
-    
-    <div class="small-margin">London now: {{currentTemperature}} °C</div>
-    <div class="small-margin">Mock Employer's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployerInput">mock</button></span></div>
-    <div class="small-margin">Mock Employee's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployeeInput">mock</button></span></div>
-    
-   
+   <SubmitForm v-else-if="this.activeTab === 'Employee'" v-on:submitEvent="employeeFormSubmit" key="employee"></SubmitForm>  
+   <div class="small-margin">London now: {{currentTemperature}} °C</div>
+   <div class="small-margin">Mock Employer's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployerInput">mock</button></span></div>
+   <div class="small-margin">Mock Employee's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployeeInput">mock</button></span></div>
+   <div class="small-margin">Clear values <span><button v-on:click="clearValues">clear</button></span></div>
   </div>
 </template>
 
@@ -72,9 +70,9 @@ export default {
       if(employeeSalary === undefined || employerSalary === undefined) return;
 
       if(+employeeSalary <= +employerSalary) {
-        this.showModal('Your salaries match!');
+        this.showModal('Your salaries match');
       } else {
-        this.showModal('Your salaries do not match!');
+        this.showModal('Your salaries do not match');
       }
     },
     showModal(message) {
@@ -98,6 +96,10 @@ export default {
         console.log('Employer entered salary')
         mockSocketService.emitEmployerSalary(50000);
       }, 10000);
+    },
+    clearValues() {
+      this.showModal('Values cleared');
+      mockSocketService.reset();
     }
   },
   created() {
@@ -124,6 +126,8 @@ export default {
     border: 1px solid lightgray;
     margin-bottom: 30%;
     box-shadow: 2px 6px 12px #00000059;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     }
 
   .small-margin {
