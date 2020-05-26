@@ -15,7 +15,6 @@ export default {
   .tabs-navbar {
     width: 100%;
     height: 15%;
-    background-color: gray;
     display: flex;
   }
 </style>
