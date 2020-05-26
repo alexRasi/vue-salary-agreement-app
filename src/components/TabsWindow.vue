@@ -1,5 +1,10 @@
 <template>
   <div class="tabs-window">
+  <MessageModal 
+    v-bind:visible="messageModalVisibility"
+    v-bind:message="messageModalValue"
+    v-on:modalCloseEvent="closeModal"
+    />
   <TabsNavbar class="tabs-navbar">
     <TabNav title="Employer" v-bind:active="this.activeTab === 'Employer'" v-on:clickEvent="tabClicked" />
     <TabNav title="Employee" v-bind:active="this.activeTab === 'Employee'" v-on:clickEvent="tabClicked"/>
@@ -14,6 +19,7 @@
 import TabNav from './TabNav.vue'
 import TabsNavbar from './TabsNavbar.vue'
 import SubmitForm from './SubmitForm.vue'
+import MessageModal from './MessageModal.vue'
 
 import TemperatureFetchingService from '../services/TemperatureFetchingService';
 const temperatureFetchingService = new TemperatureFetchingService();
@@ -23,12 +29,15 @@ export default {
   components: {
     TabNav,
     TabsNavbar,
-    SubmitForm
+    SubmitForm,
+    MessageModal
   },
   data: function () {
     return {
       activeTab: 'Employer',
-      currentTemperature: 5
+      currentTemperature: null,
+      messageModalValue: String,
+      messageModalVisibility: false 
     }
   },
   methods: {
@@ -42,6 +51,16 @@ export default {
     employeeFormSubmit(value) {
       console.log('employee');
       console.log(value);
+
+      this.showModal(value);
+    },
+    showModal(message) {
+      this.messageModalValue = message;
+      this.messageModalVisibility = true;
+    },
+    closeModal() {
+      this.messageModalValue = '';
+      this.messageModalVisibility = false;
     }
   },
   created() {
