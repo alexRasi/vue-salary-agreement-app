@@ -112,15 +112,15 @@ export default {
   created() {
     temperatureFetchingService.fetchWeather(this.$http, 'London,uk').then(res => {
      this.currentTemperature = temperatureFetchingService.convertKelvinToCelcius(res.data.main.temp)
-    })
+    });
 
     mockSocketService.listenEmployee().subscribe(employeeSalary => {
       this.checkForMatchingSalaries(employeeSalary, mockSocketService.getEmployerLastValue());
-    })
+    });
 
      mockSocketService.listenEmployer().subscribe(employerSalary => {
        this.checkForMatchingSalaries(mockSocketService.getEmployeeLastValue(), employerSalary);
-    })
+    });
     
   }
 }
