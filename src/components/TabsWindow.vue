@@ -71,7 +71,7 @@ export default {
     checkForMatchingSalaries(employeeSalary, employerSalary) {
       if(employeeSalary === undefined || employerSalary === undefined) return;
 
-      if(employeeSalary <= employerSalary) {
+      if(+employeeSalary <= +employerSalary) {
         this.showModal('Your salaries match!');
       } else {
         this.showModal('Your salaries do not match!');
