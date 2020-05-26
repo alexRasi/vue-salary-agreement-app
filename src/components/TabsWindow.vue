@@ -9,8 +9,8 @@
     <TabNav title="Employer" v-bind:active="this.activeTab === 'Employer'" v-on:clickEvent="tabClicked" />
     <TabNav title="Employee" v-bind:active="this.activeTab === 'Employee'" v-on:clickEvent="tabClicked"/>
   </TabsNavbar>
-   <SubmitForm v-if="this.activeTab === 'Employer'" v-on:submitEvent="employerFormSubmit" key="employer"></SubmitForm>
-   <SubmitForm v-else-if="this.activeTab === 'Employee'" v-on:submitEvent="employeeFormSubmit" key="employee"></SubmitForm>  
+   <SubmitForm v-if="this.activeTab === 'Employer'" v-bind:showInput="this.showEmployerInput" v-on:submitEvent="employerFormSubmit" key="employer"></SubmitForm>
+   <SubmitForm v-else-if="this.activeTab === 'Employee'" v-bind:showInput="this.showEmployeeInput" v-on:submitEvent="employeeFormSubmit" key="employee"></SubmitForm>  
    <div class="small-margin">London now: {{currentTemperature}} °C</div>
    <div class="small-margin">Mock Employer's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployerInput">mock</button></span></div>
    <div class="small-margin">Mock Employee's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployeeInput">mock</button></span></div>
@@ -43,7 +43,9 @@ export default {
       activeTab: 'Employer',
       currentTemperature: null,
       messageModalValue: '',
-      messageModalVisibility: false 
+      messageModalVisibility: false,
+      showEmployeeInput: true,
+      showEmployerInput: true
     }
   },
   methods: {
@@ -53,6 +55,7 @@ export default {
     employerFormSubmit(value) {
       mockSocketService.emitEmployerSalary(value);
       this.showModal('Sumbitted. Please wait for the employee\'s response');
+      this.showEmployerInput = false;
 
       if(mockSocketService.getEmployeeLastValue()) {
         this.checkForMatchingSalaries(mockSocketService.getEmployeeLastValue(), value);
@@ -61,6 +64,7 @@ export default {
     employeeFormSubmit(value) {
       mockSocketService.emitEmployeeSalary(value);
       this.showModal('Sumbitted. Please wait for the employer\'s response');
+      this.showEmployeeInput = false;
 
       if(mockSocketService.getEmployerLastValue()) {
         this.checkForMatchingSalaries(value, mockSocketService.getEmployerLastValue());
@@ -99,7 +103,10 @@ export default {
     },
     clearValues() {
       this.showModal('Values cleared');
+
       mockSocketService.reset();
+      this.showEmployeeInput = true;
+      this.showEmployerInput = true;
     }
   },
   created() {

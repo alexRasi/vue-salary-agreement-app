@@ -1,17 +1,21 @@
 <template>
     <form class="submit-form"  @submit.prevent @submit="emitSubmitEvent">
-    <div class="input-container"><input type="number" min="0" class="salary-input" v-model="salary" placeholder="Enter salary"></div>
-      <div class="submit-button-container"><button type ="button" class="submit-button" v-on:click="emitSubmitEvent">Submit</button></div>
+    <div v-if="showInput" class="input-container"><input type="number" min="0" class="salary-input" v-model="salary" placeholder="Enter salary"></div>
+    <div v-if="showInput" class="submit-button-container"><button type ="button" class="submit-button" v-on:click="emitSubmitEvent">Submit</button></div>
+    <div v-if="!showInput">Please Wait</div>
     </form>
 </template>
 
 <script>
 export default {
   name: 'submit-form',
-   data: function () {
+  data: function () {
   return {
     salary: null
     }
+  },
+  props: {
+    showInput: Boolean
   },
   methods: {
     emitSubmitEvent() {
