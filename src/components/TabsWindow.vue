@@ -6,6 +6,7 @@
   </TabsNavbar>
    <SubmitForm v-if="this.activeTab === 'Employer'" v-on:submitEvent="employerFormSubmit" key="employer"></SubmitForm>
    <SubmitForm v-else-if="this.activeTab === 'Employee'" v-on:submitEvent="employeeFormSubmit" key="employee"></SubmitForm>
+    London now: {{currentTemperature}} °C
   </div>
 </template>
 
@@ -13,6 +14,9 @@
 import TabNav from './TabNav.vue'
 import TabsNavbar from './TabsNavbar.vue'
 import SubmitForm from './SubmitForm.vue'
+
+import TemperatureFetchingService from '../services/TemperatureFetchingService';
+const temperatureFetchingService = new TemperatureFetchingService();
 
 export default {
   name: 'tabs-window',
@@ -23,7 +27,8 @@ export default {
   },
   data: function () {
     return {
-      activeTab: 'Employer'
+      activeTab: 'Employer',
+      currentTemperature: 5
     }
   },
   methods: {
@@ -38,6 +43,11 @@ export default {
       console.log('employee');
       console.log(value);
     }
+  },
+  created() {
+    temperatureFetchingService.fetchWeather(this.$http, 'London,uk').then(res => {
+     this.currentTemperature = temperatureFetchingService.convertKelvinToCelcius(res.data.main.temp)
+    })
   }
 }
 </script>
