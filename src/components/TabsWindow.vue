@@ -9,8 +9,16 @@
     <TabNav title="Employer" v-bind:active="this.activeTab === 'Employer'" v-on:clickEvent="tabClicked" />
     <TabNav title="Employee" v-bind:active="this.activeTab === 'Employee'" v-on:clickEvent="tabClicked"/>
   </TabsNavbar>
-   <SubmitForm v-if="this.activeTab === 'Employer'" v-bind:showInput="this.showEmployerInput" v-on:submitEvent="employerFormSubmit" key="employer"></SubmitForm>
-   <SubmitForm v-else-if="this.activeTab === 'Employee'" v-bind:showInput="this.showEmployeeInput" v-on:submitEvent="employeeFormSubmit" key="employee"></SubmitForm>  
+   <SubmitForm v-if="this.activeTab === 'Employer'" 
+    v-bind:showInput="this.showEmployerInput" 
+    v-on:submitEvent="employerFormSubmit"
+    placeholderValue="Enter maximum offer"
+    key="employer"></SubmitForm>
+   <SubmitForm v-else-if="this.activeTab === 'Employee'"
+    v-bind:showInput="this.showEmployeeInput" 
+    v-on:submitEvent="employeeFormSubmit" 
+    placeholderValue="Enter minimum salary"
+    key="employee"></SubmitForm>  
    <div class="small-margin">London now: {{currentTemperature}} °C</div>
    <div class="small-margin">Mock Employer's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployerInput">mock</button></span></div>
    <div class="small-margin">Mock Employee's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployeeInput">mock</button></span></div>
@@ -74,9 +82,9 @@ export default {
       if(employeeSalary === undefined || employerSalary === undefined) return;
 
       if(+employeeSalary <= +employerSalary) {
-        this.showModal('Your salaries match');
+        this.showModal('Success!');
       } else {
-        this.showModal('Your salaries do not match');
+        this.showModal('Failure!');
       }
     },
     showModal(message) {

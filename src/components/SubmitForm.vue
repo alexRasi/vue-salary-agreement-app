@@ -1,6 +1,6 @@
 <template>
     <form class="submit-form"  @submit.prevent @submit="emitSubmitEvent">
-    <div v-if="showInput" class="input-container"><input type="number" min="0" class="salary-input" v-model="salary" placeholder="Enter salary"></div>
+    <div v-if="showInput" class="input-container"><input type="number" min="0" class="salary-input" v-model="salary" v-bind:placeholder="placeholderValue"></div>
     <div v-if="showInput" class="submit-button-container"><button type ="button" class="submit-button" v-on:click="emitSubmitEvent">Submit</button></div>
     <div v-if="!showInput">Please Wait</div>
     </form>
@@ -15,7 +15,8 @@ export default {
     }
   },
   props: {
-    showInput: Boolean
+    showInput: Boolean,
+    placeholderValue: String
   },
   methods: {
     emitSubmitEvent() {
@@ -49,7 +50,7 @@ export default {
   width: 100%;
   height: 100%;
   color: #2c3e50;
-  font-size: 23px;
+  font-size: 16px;
 }
 
 .submit-button-container {
