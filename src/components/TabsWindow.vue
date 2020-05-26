@@ -11,7 +11,12 @@
   </TabsNavbar>
    <SubmitForm v-if="this.activeTab === 'Employer'" v-on:submitEvent="employerFormSubmit" key="employer"></SubmitForm>
    <SubmitForm v-else-if="this.activeTab === 'Employee'" v-on:submitEvent="employeeFormSubmit" key="employee"></SubmitForm>
-    London now: {{currentTemperature}} °C
+    
+    <div class="small-margin">London now: {{currentTemperature}} °C</div>
+    <div class="small-margin">Mock Employer's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployerInput">mock</button></span></div>
+    <div class="small-margin">Mock Employee's input 50.000 in the next 10 seconds <span><button v-on:click="mockEmployeeInput">mock</button></span></div>
+    
+   
   </div>
 </template>
 
@@ -22,6 +27,9 @@ import SubmitForm from './SubmitForm.vue'
 import MessageModal from './MessageModal.vue'
 
 import TemperatureFetchingService from '../services/TemperatureFetchingService';
+import MockSocketService from '../services/MockSocketService';
+
+const mockSocketService = new MockSocketService();
 const temperatureFetchingService = new TemperatureFetchingService();
 
 export default {
@@ -36,7 +44,7 @@ export default {
     return {
       activeTab: 'Employer',
       currentTemperature: null,
-      messageModalValue: String,
+      messageModalValue: '',
       messageModalVisibility: false 
     }
   },
@@ -45,14 +53,29 @@ export default {
       this.activeTab = title;
     },
     employerFormSubmit(value) {
-      console.log('employer');
-      console.log(value);
+      mockSocketService.emitEmployerSalary(value);
+      this.showModal('Sumbitted. Please wait for the employee\'s response');
+
+      if(mockSocketService.getEmployeeLastValue()) {
+        this.checkForMatchingSalaries(mockSocketService.getEmployeeLastValue(), value);
+      }
     },
     employeeFormSubmit(value) {
-      console.log('employee');
-      console.log(value);
+      mockSocketService.emitEmployeeSalary(value);
+      this.showModal('Sumbitted. Please wait for the employer\'s response');
 
-      this.showModal(value);
+      if(mockSocketService.getEmployerLastValue()) {
+        this.checkForMatchingSalaries(value, mockSocketService.getEmployerLastValue());
+      }
+    },
+    checkForMatchingSalaries(employeeSalary, employerSalary) {
+      if(employeeSalary === undefined || employerSalary === undefined) return;
+
+      if(employeeSalary <= employerSalary) {
+        this.showModal('Your salaries match!');
+      } else {
+        this.showModal('Your salaries do not match!');
+      }
     },
     showModal(message) {
       this.messageModalValue = message;
@@ -61,12 +84,35 @@ export default {
     closeModal() {
       this.messageModalValue = '';
       this.messageModalVisibility = false;
+    },
+    mockEmployeeInput() {
+      console.log('Timeout mock set for employee');
+      setTimeout( () => {
+        console.log('Employee entered salary')
+        mockSocketService.emitEmployeeSalary(50000);
+      }, 10000);
+    },
+    mockEmployerInput() {
+      console.log('Timeout mock set for employer');
+      setTimeout( () => {
+        console.log('Employer entered salary')
+        mockSocketService.emitEmployerSalary(50000);
+      }, 10000);
     }
   },
   created() {
     temperatureFetchingService.fetchWeather(this.$http, 'London,uk').then(res => {
      this.currentTemperature = temperatureFetchingService.convertKelvinToCelcius(res.data.main.temp)
     })
+
+    mockSocketService.listenEmployee().subscribe(employeeSalary => {
+      this.checkForMatchingSalaries(employeeSalary, mockSocketService.getEmployerLastValue());
+    })
+
+     mockSocketService.listenEmployer().subscribe(employerSalary => {
+       this.checkForMatchingSalaries(mockSocketService.getEmployeeLastValue(), employerSalary);
+    })
+    
   }
 }
 </script>
@@ -79,4 +125,8 @@ export default {
     margin-bottom: 30%;
     box-shadow: 2px 6px 12px #00000059;
     }
+
+  .small-margin {
+    margin: 20px;
+  }
 </style>
