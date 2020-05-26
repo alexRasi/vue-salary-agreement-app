@@ -32,7 +32,7 @@ export default {
 
 .active {
   color: white;
-  background-color: black;
+  background-color: #2196f3;
   opacity: 0.8;
 }
 </style>
