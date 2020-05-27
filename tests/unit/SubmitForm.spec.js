@@ -3,11 +3,6 @@ import SubmitForm from '@/components/SubmitForm'
 import sinon from 'sinon'
 
 describe('SubmitForm', () => {
-  const wrapper = shallowMount(SubmitForm, {
-    propsData: {
-      visible: true
-    }
-  })
 
   describe('when given showInput=true', () => {
     const wrapper = shallowMount(SubmitForm, {
@@ -60,7 +55,7 @@ describe('SubmitForm', () => {
       }
     });
     
-    const input = wrapper.find('.salary-input').setValue(salary);
+    wrapper.find('.salary-input').setValue(salary);
     it('should call emitSubmitEvent', () => {
       wrapper.find('.submit-button').trigger('click');
       expect(emitSubmitSpy.calledWith()).toBe(true);

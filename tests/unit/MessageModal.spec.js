@@ -2,12 +2,6 @@ import { shallowMount } from '@vue/test-utils'
 import MessageModal from '@/components/MessageModal'
 
 describe('MessageModal', () => {
-  const wrapper = shallowMount(MessageModal, {
-    propsData: {
-      message: 'test',
-      visible: true
-    }
-  })
 
   describe('when given visible=true and a message', () => {
     const wrapper = shallowMount(MessageModal, {
