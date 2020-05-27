@@ -53,7 +53,6 @@ describe('SubmitForm', () => {
 
     const salary = 100;
 
-
     const wrapper = shallowMount(SubmitForm, {
       propsData: {
         placeholderValue: placeholderValue,
