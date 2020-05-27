@@ -17,7 +17,7 @@ describe('MessageModal', () => {
       }
     });
     
-    it('should render the given message', () => {
+    it('should render a modal with the given message', () => {
       expect(wrapper.find('p').text()).toBe('test');
     });
   })
