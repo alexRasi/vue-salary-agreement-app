@@ -2,7 +2,6 @@
     <form class="submit-form"  @submit.prevent @submit="emitSubmitEvent">
     <div v-if="showInput" class="input-container"><input type="number" min="0" class="salary-input" v-model="salary" v-bind:placeholder="placeholderValue"></div>
     <div v-if="showInput" class="submit-button-container"><button type ="button" class="submit-button" v-on:click="emitSubmitEvent">Submit</button></div>
-    <div v-if="!showInput">Please Wait</div>
     </form>
 </template>
 
